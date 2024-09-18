@@ -1,0 +1,85 @@
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-primary">All Products</h2>
+    <div class="d-flex align-items-center">
+      <input (change)="searchData(searchInput.value)" #searchInput class="form-control me-3 w-50" type="search"
+        placeholder="Search for products" aria-label="Search">
+      <a class="btn btn-success" routerLink="create">+ Create New Product</a>
+    </div>
+  </div>
+
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover text-center">
+      <thead class="table-light ">
+        <tr>
+          <th>#</th>
+          <th>ID</th>
+          <th>Product Name</th>
+          <th>Category</th>
+          <th>Subcategory</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Sold</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(product of products; track product._id) {
+        <tr>
+          <td>{{$index + 1}}</td>
+          <td>{{product?._id | slice:-4}}</td>
+          <td>
+            <div class="d-flex align-items-center">
+              <img class="rounded-circle me-3" width="50px" [src]="productImage + product?.cover" [alt]="product?.name">
+              <span>{{product?.name}}</span>
+            </div>
+          </td>
+          <td>{{product?.category?.name}}</td>
+          <td>{{product?.subcategory?.name}}</td>
+          <td>{{product?.price | currency}}</td>
+          <td>{{product?.quantity}}</td>
+          <td>{{product?.sold}}</td>
+          <td>
+            <div class="d-flex justify-content-around">
+              <a [routerLink]="['/products', product._id]" class="btn btn-outline-info btn-sm">Details</a>
+              <a [routerLink]="['/products', product._id, 'update']" class="btn btn-outline-primary btn-sm">Update</a>
+              <button (click)="deleteProduct(product._id)" class="btn btn-outline-danger btn-sm">Delete</button>
+            </div>
+          </td>
+        </tr>
+        }
+        @empty {
+        <tr>
+          <td colspan="9" class="text-center">No products available</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="d-flex justify-content-center mt-4">
+    <ul class="pagination justify-content-center my-4">
+      @if(pagination.currentPage != 1) {
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.prev!)">Previous</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(1)">1</a>
+        </li>
+      }
+      <li class="page-item">
+        <a class="page-link">{{pagination.currentPage}}</a>
+      </li>
+      @if(pagination.currentPage != pagination.totalPages) {
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.totalPages!)">{{pagination.totalPages}}</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.next!)">Next</a>
+        </li>
+      }
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<br><br><br>
+@if(subcategory !== '')
+{
+<div class="w-50 mt-5 m-auto shadow p-4 bg-white rounded">
+  <h1 class="text-center mb-4" style="font-size: 2rem; color: #333;">Update "{{subcategory.name}}" subCategory</h1>
+  <form [formGroup]="subcategoryForm" (ngSubmit)="updatesubCategory(subcategory._id, subcategoryForm)">
+    <div class="form-group mb-3">
+      <div class="d1">
+        <input formControlName="name" class="form-control form-control-lg" type="text" placeholder="subCategory Name"
+          style="font-size: 1.2rem;" [value]="subcategory.name">
+        <div class="dd1">
+
+          @if(subcategoryForm.get('name')?.errors !== null && subcategoryForm.get('name')?.touched && subcategoryError=== '') {
+          <div class="mt-2">
+            @if(subcategoryForm.get('name')?.errors?.['required']) {
+            <p class="text-danger" style="font-size: 0.9rem;">subCategory name is required</p>
+            }
+          </div>
+          }
+        </div>
+      </div>
+
+      <select formControlName="category" class="form-select" aria-label="Default select example">
+        @for(category of categories;track category._id)
+        {
+        <option [value]="category._id">{{category.name}}</option>
+        }
+
+
+      </select>
+
+
+      @if(subcategoryError !== '') {
+      <div class="text-danger mt-2" style="font-size: 0.9rem;">
+        <p>{{subcategoryError}}</p>
+      </div>
+      }
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn btn-primary btn-lg px-5 mx-3">Update</button>
+      <a routerLink="/subcategories" class="btn btn-secondary btn-lg px-5">Cancel</a>
+    </div>
+  </form>
+</div>
+}@else {
+<h1 class="text-bg-light text-center container p-4 shadow w-50">Not Found</h1>
+}
+<br><br><br>

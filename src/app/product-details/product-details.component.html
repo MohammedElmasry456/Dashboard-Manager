@@ -1,0 +1,51 @@
+<div class="container d-flex  flex-column  my-4">
+  <div class="photos text-center">
+    <div class="cover w-100">
+      <img [src]="img+product?.cover" [alt]="product?.name">
+    </div>
+    <div class="others d-flex flex-wrap justify-content-center gap-3">
+      @for(photo of product?.images;track photo)
+      {
+      <img [src]="img+photo" [alt]="product.name">
+      }
+
+    </div>
+  </div>
+
+  <div class="content my-5 w-100 d-flex justify-content-around ">
+
+    <div class="w-50">
+      <p>PRODUCT DETAILS</p>
+      <p>{{product.description}}</p>
+    </div>
+
+    <div class="text-center">
+      <p style="font-weight: 800; font-size: large; color: rgb(48, 148, 219);">{{product?.subcategory?.name}}</p>
+      <h1>{{product?.name}}</h1>
+      <p style="font-weight: bold; font-size: 25px;">{{product.price|currency}}</p>
+      <p>(Additional tax may apply on checkout)</p>
+      <p style="font-weight: bold;font-size: 20px;">{{product.ratingAverage}} &star;</p>
+    </div>
+  </div>
+
+  <hr class="my-3">
+  <h2 class="text-center">Product Reviews</h2>
+  <hr class="my-3">
+  @for(review of product?.reviews; track review._id){
+  <div class="d-flex justify-content-around ">
+    <h4 style="width: 25%;">{{review?.user?.name}}</h4>
+    <p style="width: 35%;">{{review?.comment}} - {{review?.rating}}&star;</p>
+    <p style="width: 25%;">{{review?.createdAt|date}}</p>
+    <hr>
+  </div>
+
+  }@empty {
+
+  <h6 class="text-center text-secondary">No Reviews available</h6>
+
+  }
+  <hr><br><br>
+
+
+
+</div>

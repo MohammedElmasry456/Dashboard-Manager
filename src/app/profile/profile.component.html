@@ -1,0 +1,82 @@
+<!-- Update Data Section -->
+<div class="container my-5">
+  <h1 class="text-center my-5 text-primary">Profile Information</h1>
+  <div class="profile-container d-flex justify-content-center align-items-center p-4 rounded-3 shadow-sm bg-light">
+    <div class="profile-image me-4">
+      <img class="rounded-circle" [src]="userImage + user.image" [alt]="user.name" style="width: 100px; height: 100px;">
+    </div>
+    <div class="profile-details">
+      <div class="mb-3">
+        <label class="form-label fw-bold">Email:</label>
+        <p class="form-control-plaintext">{{user.email}}</p>
+      </div>
+      <div class="mb-3">
+        <label for="userName" class="form-label fw-bold">Name:</label>
+        <input id="userName" class="form-control" type="text" placeholder="Name" (change)="(this.userName = Name.value)" #Name [value]="user.name">
+      </div>
+      <div class="mb-3">
+        <label for="userImage" class="form-label fw-bold">Profile Image:</label>
+        <input id="userImage" class="form-control" (change)="getFile($event)" type="file">
+      </div>
+      <div class="text-end">
+        <button (click)="updateLoggedUser()" class="btn btn-primary">Update Data</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Change Password Section -->
+<div class="container my-5">
+  <h1 class="text-center my-5 text-primary">Change Password</h1>
+  <form [formGroup]="passwordForm" (ngSubmit)="changeUserPassword(passwordForm)" class="password-form p-4 rounded-3 shadow-sm bg-light">
+    <div class="mb-3">
+      <label for="currentPassword" class="form-label fw-bold">Current Password:</label>
+      <input id="currentPassword" formControlName="currentPassword" class="form-control" type="password" placeholder="Current password">
+      @if(passwordForm.get('currentPassword')?.touched && passwordForm.get('currentPassword')?.errors){
+      <div class="text-danger mt-2">
+        @if(passwordForm.get('currentPassword')?.errors?.['required']){<p>Current password is required</p>}
+        @if(passwordForm.get('currentPassword')?.errors?.['minlength'] || passwordForm.get('currentPassword')?.errors?.['maxlength']){
+          <p>Current password must be between 6 and 20 characters</p>
+        }
+      </div>
+      }
+      @if(currentPasswordError !== ''){
+      <div class="text-danger mt-2">
+        <p>{{currentPasswordError}}</p>
+      </div>
+      }
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label fw-bold">New Password:</label>
+      <input id="password" formControlName="password" class="form-control" type="password" placeholder="New password">
+      @if(passwordForm.get('password')?.touched && passwordForm.get('password')?.errors){
+      <div class="text-danger mt-2">
+        @if(passwordForm.get('password')?.errors?.['required']){<p>New password is required</p>}
+        @if(passwordForm.get('password')?.errors?.['minlength'] || passwordForm.get('password')?.errors?.['maxlength']){
+          <p>New password must be between 6 and 20 characters</p>
+        }
+      </div>
+      }
+    </div>
+    <div class="mb-3">
+      <label for="confirmPassword" class="form-label fw-bold">Confirm Password:</label>
+      <input id="confirmPassword" formControlName="confirmPassword" class="form-control" type="password" placeholder="Confirm password">
+      @if(passwordForm.get('confirmPassword')?.touched && passwordForm.get('confirmPassword')?.errors && passwordError===''){
+      <div class="text-danger mt-2">
+        @if(passwordForm.get('confirmPassword')?.errors?.['required']){<p>Password confirmation is required</p>}
+        @if(passwordForm.get('confirmPassword')?.errors?.['minlength'] || passwordForm.get('confirmPassword')?.errors?.['maxlength']){
+          <p>Password confirmation must be between 6 and 20 characters</p>
+        }
+      </div>
+      }
+      @if(passwordError !== ''){
+      <div class="text-danger mt-2">
+        <p>{{passwordError}}</p>
+      </div>
+      }
+    </div>
+    <div class="text-end">
+      <button [disabled]="passwordForm.invalid" class="btn btn-primary">Update Password</button>
+    </div>
+  </form>
+</div>

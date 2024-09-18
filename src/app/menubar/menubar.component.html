@@ -1,0 +1,43 @@
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav custom-menu">
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/home' routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/categories' routerLinkActive="active">Categories</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/subcategories' routerLinkActive="active">Subcategories</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/products' routerLinkActive="active">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/coupons' routerLinkActive="active">Coupons</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/orders' routerLinkActive="active">Orders</a>
+        </li>
+        @if(user.role === 'manager') {
+          <li class="nav-item">
+            <a class="nav-link" routerLink='/users' routerLinkActive="active">Users</a>
+          </li>
+        }
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/profile' routerLinkActive="active">Profile</a>
+        </li>
+        <li class="nav-item">
+          <button (click)="logout()" class="nav-link bg-transparent border-0 text-danger">Logout</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

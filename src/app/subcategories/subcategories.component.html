@@ -1,0 +1,70 @@
+
+<div class="container py-5">
+
+  <h2 class="text-center mb-4">All subCategories</h2>
+
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <a class="btn btn-primary rounded-pill" routerLink="create">Create subcategory</a>
+    <input (change)="searchData(searchInput.value)" #searchInput class="form-control rounded-pill w-50" type="search"
+      placeholder="Search subcategories..." aria-label="Search">
+  </div>
+
+
+  <div class="table-responsive shadow-sm">
+    <table class="table table-hover table-bordered align-middle text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>ID</th>
+          <th>subcategory Name</th>
+          <th>category Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(subcategory of subcategories; track subcategory._id) {
+        <tr>
+          <td>{{$index + 1}}</td>
+          <td>{{subcategory?._id | slice:-4}}</td>
+          <td>{{subcategory?.name}}</td>
+          <td>{{subcategory?.category?.name}}</td>
+          <td>
+            <a [routerLink]="['/subcategories',subcategory._id]" class="btn btn-info btn-sm mx-1 text-bg-primary">Update</a>
+            <button (click)="deleteSubcategory(subcategory._id)" class="btn btn-danger btn-sm">Delete</button>
+          </td>
+        </tr>
+        }@empty {
+          <tr>
+            <td colspan="9" class="text-center">No subcategories available</td>
+          </tr>
+          }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+
+    <ul class="pagination justify-content-center my-4">
+      @if(pagination.currentPage != 1) {
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.prev!)">Previous</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(1)">1</a>
+        </li>
+      }
+      <li class="page-item">
+        <a class="page-link">{{pagination.currentPage}}</a>
+      </li>
+      @if(pagination.currentPage != pagination.totalPages) {
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.totalPages!)">{{pagination.totalPages}}</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.next!)">Next</a>
+        </li>
+      }
+    </ul>
+
+</div>

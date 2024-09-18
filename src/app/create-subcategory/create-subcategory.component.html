@@ -1,0 +1,45 @@
+<div class="container w-50 mt-5 shadow-lg rounded p-4 bg-white">
+
+  <h1 class="text-center mb-4">Add subcategory</h1>
+
+  <form [formGroup]="subcategoryForm" (ngSubmit)="createSubcategory(subcategoryForm)">
+    <div class="form-group mb-3">
+
+      <div class="d1">
+      <input formControlName="name" class="form-control form-control-lg" type="text" placeholder="subcategory Name">
+      <div class="text-danger mt-1 dd1">
+      @if(subcategoryForm.get('name')?.errors!==null && subcategoryForm.get('name')?.touched) {
+      <div class="">
+        @if(subcategoryForm.get('name')?.errors?.['required']) {
+        <p class="text-danger d-inline">subcategory name is required</p>
+        }
+      </div>
+      }
+      </div>
+      </div>
+
+      <select formControlName="category" class="form-select"  aria-label="Default select example">
+        <option disabled selected>choose category</option>
+        @for(category of categories;track category._id)
+        {
+          <option [value]="category._id">{{category.name}}</option>
+        }
+
+
+      </select>
+
+      @if(subcategoryError !== '') {
+      <div class="text-danger mt-2">
+        <p>{{subcategoryError}}</p>
+      </div>
+      }
+    </div>
+
+
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn btn-primary btn-lg px-5 me-3">Create</button>
+      <a routerLink="/subcategories" class="btn btn-secondary btn-lg px-5">Cancel</a>
+    </div>
+  </form>
+</div>
+<br><br><br>

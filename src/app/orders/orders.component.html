@@ -1,0 +1,90 @@
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-primary">All Orders</h2>
+    <input (change)="searchData(searchInput.value)" #searchInput class="form-control w-50" type="search"
+      placeholder="Search for orders" aria-label="Search">
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover text-center">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>ID</th>
+          <th>User</th>
+          <th>Products</th>
+          <th>Payment</th>
+          <th>Delivered</th>
+          <th>Deliver Time</th>
+          <th>Paid</th>
+          <th>Pay Time</th>
+          <th>Tax Price</th>
+          <th>Total Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(order of orders; track order._id) {
+        <tr>
+          <td>{{$index + 1}}</td>
+          <td>{{order?._id | slice:-4}}</td>
+          <td>{{order?.user?.name}}</td>
+          <td>
+            <div class="d-flex flex-column">
+              @for(item of order.cartItems; track item._id) {
+              <div class="d-flex align-items-center mb-2">
+                <img class="me-2" width="50px" [src]="productsImage + item?.product?.cover" [alt]="item?.product?.name">
+                {{item?.product?.name}}
+              </div>
+              }
+            </div>
+          </td>
+          <td>{{order?.paymentMethod}}</td>
+          <td>@if(order?.isDelivered) {yes} @else {No}</td>
+          <td>@if(order?.deliveredAt) {{{order?.deliveredAt | date}}} @else {-----}</td>
+          <td>@if(order?.isPaid) {yes} @else {No}</td>
+          <td>@if(order?.paidAt) {{{order?.paidAt | date}}} @else {-----}</td>
+          <td>{{order?.taxPrice | currency}}</td>
+          <td>{{order?.totalPrice | currency}}</td>
+          <td>
+            <div class="d-flex justify-content-around">
+              <button [disabled]="order.isDelivered" (click)="updateDelivered(order._id)"
+                class="btn btn-primary btn-sm">Deliver Order</button>
+              <button [disabled]="order.isPaid" (click)="updatePaid(order._id)"
+                class="btn btn-success btn-sm">Pay Order</button>
+            </div>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="12" class="text-center">No orders available</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex justify-content-center mt-4">
+    <ul class="pagination justify-content-center">
+      @if(pagination.currentPage != 1) {
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.prev!)">Previous</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(1)">1</a>
+        </li>
+      }
+      <li class="page-item">
+        <a class="page-link">{{pagination.currentPage}}</a>
+      </li>
+      @if(pagination.currentPage != pagination.totalPages) {
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.totalPages!)">{{pagination.totalPages}}</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.next!)">Next</a>
+        </li>
+      }
+    </ul>
+  </div>
+</div>

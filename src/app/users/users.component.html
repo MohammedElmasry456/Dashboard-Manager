@@ -1,0 +1,84 @@
+<div class="container my-5">
+  <h2 class="fw-bold text-center text-primary my-5">All Users</h2>
+  <hr class="my-3">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <button (click)="filterUsers('admin')" class="btn btn-outline-success btn-sm rounded-3 me-2">View Admins</button>
+      <button (click)="filterUsers('user')" class="btn btn-outline-success btn-sm rounded-3">View Users</button>
+    </div>
+    <div class="d-flex align-items-center">
+      <input (change)="searchData(searchInput.value)" #searchInput class="form-control me-3 w-50" type="search"
+        placeholder="Search for users" aria-label="Search">
+      <a class="btn btn-primary" routerLink="create">+ Create User</a>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover text-center">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>ID</th>
+          <th>User Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(user of users; track user._id) {
+        <tr>
+          <td>{{$index + 1}}</td>
+          <td>{{user?._id|slice:-4}}</td>
+          <td>
+            <div class="d-flex align-items-center justify-content-center">
+              <img class="rounded-circle me-3" width="50px" [src]="userImage + user?.image" [alt]="user?.name">
+              <span>{{user?.name}}</span>
+            </div>
+          </td>
+          <td>{{user?.email}}</td>
+          <td>{{user?.role}}</td>
+          <td>@if(user?.active){Yes}@else{No}</td>
+          <td>
+            <div class="d-flex justify-content-center">
+              <a [routerLink]="['/users', user._id]" class="btn btn-outline-primary btn-sm rounded-3">Details</a>
+              <button (click)="changeUserActive(user._id)" class="btn btn-outline-secondary btn-sm rounded-3 mx-3">Change Active</button>
+              <button (click)="deleteUser(user._id)" class="btn btn-outline-danger btn-sm rounded-3">Delete</button>
+            </div>
+          </td>
+        </tr>
+        }
+        @empty {
+        <tr>
+          <td colspan="7" class="text-center">No users available</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex justify-content-center mt-4">
+    <ul class="pagination justify-content-center">
+      @if(pagination.currentPage != 1) {
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.prev!)">Previous</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(1)">1</a>
+        </li>
+      }
+      <li class="page-item">
+        <a class="page-link">{{pagination.currentPage}}</a>
+      </li>
+      @if(pagination.currentPage != pagination.totalPages) {
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.totalPages!)">{{pagination.totalPages}}</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" (click)="changeData(pagination.next!)">Next</a>
+        </li>
+      }
+    </ul>
+  </div>
+</div>

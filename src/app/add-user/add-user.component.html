@@ -1,0 +1,92 @@
+<div class="container w-50 mt-5 shadow-lg rounded p-4 bg-white">
+  <h1 class="text-center mb-4">Add User</h1>
+
+  <form [formGroup]="userForm" (ngSubmit)="createUser(userForm)">
+    <div class="form-group mb-3">
+      <input formControlName="name" class="form-control form-control-lg" type="text" placeholder="Name">
+      <div class="text-danger mt-1">
+        @if(userForm.get('name')?.errors !== null && userForm.get('name')?.touched) {
+        <div>
+          @if(userForm.get('name')?.errors?.['required']) {
+          <p class="text-danger">Name is required</p>
+          }
+          @if(userForm.get('name')?.errors?.['minlength'] || userForm.get('name')?.errors?.['maxlength']) {
+          <p class="text-danger">Name must be between 2 and 50 characters</p>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <input formControlName="email" class="form-control form-control-lg" type="email" placeholder="Email">
+      <div class="text-danger mt-1">
+        @if(userForm.get('email')?.errors !== null && userForm.get('email')?.touched && userEmailError == '') {
+        <div>
+          @if(userForm.get('email')?.errors?.['required']) {
+          <p class="text-danger">Email is required</p>
+          }
+          @if(userForm.get('email')?.errors?.['email']) {
+          <p class="text-danger">Invalid email address</p>
+          }
+        </div>
+        }
+        @if (userEmailError != '') {
+          <p>{{userEmailError}}</p>
+          }
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <select formControlName="role" class="form-select form-select-lg" aria-label="User role">
+        <option disabled selected>Select User Role</option>
+        <option value="admin">Admin</option>
+        <option value="user">User</option>
+      </select>
+    </div>
+
+    <div class="form-group mb-3">
+      <input formControlName="password" class="form-control form-control-lg" type="password" placeholder="Password">
+      <div class="text-danger mt-1">
+        @if(userForm.get('password')?.errors !== null && userForm.get('password')?.touched ) {
+        <div>
+          @if(userForm.get('password')?.errors?.['required']) {
+          <p class="text-danger">Password is required</p>
+          }
+          @if(userForm.get('password')?.errors?.['minlength'] || userForm.get('password')?.errors?.['maxlength']) {
+          <p class="text-danger">Password must be between 6 and 20 characters</p>
+          }
+
+        </div>
+        }
+
+
+
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <input formControlName="confirmPassword" class="form-control form-control-lg" type="password" placeholder="Confirm Password">
+      <div class="text-danger mt-1">
+        @if(userForm.get('confirmPassword')?.errors !== null && userForm.get('confirmPassword')?.touched && userPasswordError == '') {
+        <div>
+          @if(userForm.get('confirmPassword')?.errors?.['required']) {
+          <p class="text-danger">Confirm Password is required</p>
+          }
+          @if(userForm.get('confirmPassword')?.errors?.['minlength'] || userForm.get('confirmPassword')?.errors?.['maxlength']) {
+          <p class="text-danger">Confirm Password must be between 6 and 20 characters</p>
+          }
+        </div>
+        }
+        @if (userPasswordError != '') {
+          <p>{{userPasswordError}}</p>
+          }
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn btn-primary btn-lg px-5 me-3" [disabled]="userForm.invalid">Create</button>
+      <a routerLink="/users" class="btn btn-secondary btn-lg px-5">Cancel</a>
+    </div>
+  </form>
+</div>
